@@ -70,3 +70,77 @@
 
 const readlineSync = require('readline-sync');
 
+function transposeMatrix(matrix) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const result = [];
+
+    for (let j = 0; j < cols; j++) {
+        const newRow = [];
+        for (let i = 0; i < rows; i++) {
+            newRow.push(matrix[i][j]);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+function addMatrices(a, b) {
+    const rows = a.length;
+    const cols = a[0].length;
+    const result = [];
+
+    for (let i = 0; i < rows; i++) {
+        const newRow = [];
+        for (let j = 0; j < cols; j++) {
+            newRow.push(a[i][j] + b[i][j]);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+function multiplyMatrices(a, b) {
+    const rowsA = a.length;
+    const colsA = a[0].length;
+    const colsB = b[0].length;
+    const result = [];
+
+    for (let i = 0; i < rowsA; i++) {
+        const newRow = [];
+        for (let j = 0; j < colsB; j++) {
+            let sum = 0;
+            for (let k = 0; k < colsA; k++) {
+                sum += a[i][k] * b[k][j];
+            }
+            newRow.push(sum);
+        }
+        result.push(newRow);
+    }
+    return result;
+}
+
+function readMatrix(rows) {
+    const matrix = [];
+    for (let i = 0; i < rows; i++) {
+        const line = readlineSync.question(`Enter row ${i + 1}: `);
+        matrix.push(line.split(' ').map(Number));
+    }
+    return matrix;
+}
+
+function printMatrix(matrix) {
+    for (const row of matrix) {
+        console.log(row.join('\t'));
+    }
+}
+
+// Part A
+const rows = parseInt(readlineSync.question('Enter number of rows: '));
+const cols = parseInt(readlineSync.question('Enter number of columns: '));
+const matrix = readMatrix(rows);
+
+console.log('Original Matrix:');
+printMatrix(matrix);
+console.log('Transposed Matrix:');
+printMatrix(transposeMatrix(matrix));
