@@ -79,6 +79,71 @@
 //
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
+// ============================================================================
 
+const readlineSync = require('readline-sync');
 
+let tasks = [];
+
+function displayMenu() {
+    console.log("\n===========================");
+    console.log("      TO-DO LIST MENU");
+    console.log("===========================");
+    console.log("1. Add task");
+    console.log("2. View tasks");
+    console.log("3. Delete task");
+    console.log("4. Quit");
+}
+
+function addTask() {
+    const task = readlineSync.question("Enter task: ");
+    tasks.push(task);
+    console.log(`Task added: "${task}"`);
+}
+
+function viewTasks() {
+    if (tasks.length === 0) {
+        console.log("Your to-do list is empty!");
+        return;
+    }
+    console.log("Your Tasks:");
+    for (let i = 0; i < tasks.length; i++) {
+        console.log(`${i + 1}. ${tasks[i]}`);
+    }
+}
+
+function deleteTask() {
+    if (tasks.length === 0) {
+        console.log("Your to-do list is empty!");
+        return;
+    }
+    viewTasks();
+    const num = parseInt(readlineSync.question("Enter task number to delete: "));
+
+    if (num < 1 || num > tasks.length) {
+        console.log("Error: Invalid task number.");
+        return;
+    }
+
+    const removed = tasks[num - 1];
+    tasks.splice(num - 1, 1);
+    console.log(`Task "${removed}" has been removed.`);
+}
+
+let choice;
+do {
+    displayMenu();
+    choice = parseInt(readlineSync.question("Enter your choice (1-4): "));
+
+    if (choice === 1) {
+        addTask();
+    } else if (choice === 2) {
+        viewTasks();
+    } else if (choice === 3) {
+        deleteTask();
+    } else if (choice === 4) {
+        console.log("Goodbye!");
+    } else {
+        console.log("Error: Please enter a number between 1 and 4.");
+    }
+} while (choice !== 4);
